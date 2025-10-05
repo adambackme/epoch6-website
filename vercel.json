@@ -1,7 +1,24 @@
 {
+"redirects": [
+{
+"source": "/index.html",
+"destination": "/access",
+"permanent": false
+},
+{
+"source": "/product_page.html",
+"destination": "/access",
+"permanent": false
+},
+{
+"source": "/(.)",
+"destination": "/access",
+"permanent": false
+}
+],
 "rewrites": [
 {
-"source": "/_next/:path*",
+"source": "/_next/:path",
 "destination": "/_next/:path*"
 },
 {
@@ -14,22 +31,6 @@
 },
 {
 "source": "/access",
-"destination": "/pre_launch_signup.html"
-},
-{
-"source": "/index.html",
-"destination": "/pre_launch_signup.html"
-},
-{
-"source": "/product_page.html",
-"destination": "/pre_launch_signup.html"
-},
-{
-"source": "/",
-"destination": "/pre_launch_signup.html"
-},
-{
-"source": "/(.*)",
 "destination": "/pre_launch_signup.html"
 }
 ]
