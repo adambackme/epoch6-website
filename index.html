@@ -312,7 +312,7 @@
             privacy: `# EPOCH 6 LABS: DATA INTEGRITY POLICY\n\n## Effective Date: October 4, 2025\n\nAt Epoch 6 Labs, the integrity of your personal data is paramount. This policy outlines how we collect, use, and protect your information within the scope of our Cellular Optimization Network.\n\n### 1. Data Collection & Use\n\nWe collect data necessary for transaction processing, delivery, and system improvement. This includes:\n* **Identity Data:** Name, email address, shipping address (for fulfillment).\n* **Transaction Data:** Purchase history and payment details (processed securely by third-party payment processors like PayPal; we do not store full payment card numbers).\n* **Usage Data:** IP address, browser type, and interaction data (for site optimization and security).\n\nYour data is used solely to fulfill orders, process payments, and communicate proprietary system updates and offers.\n\n### 2. Data Security\n\nWe utilize industry-standard, encrypted security protocols to ensure the integrity of your personal information. Data access is restricted to authorized personnel only.\n\n### 3. Data Sharing\n\nWe do not sell your personal data. We only share necessary information with trusted third parties for the purpose of fulfilling your order (e.g., shipping carriers, payment processors).\n\n### 4. Your Rights (Data Access Protocol)\n\nYou have the right to request access to or deletion of your personal data. To initiate a data request, please contact us via the Contact Support channel.\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
 
             contact: `
-                <div class="grid-pattern p-6 rounded-xl border border-cyan-accent/50">
+                <div class="grid-pattern p-6 rounded-xl border border-cyan-accent/50" id="contact-form-container">
                     <h2 class="text-3xl font-extrabold text-cyan-accent mb-6 flex items-center">
                         <i data-lucide="monitor-dot" class="w-8 h-8 mr-3"></i>
                         SYSTEM DIAGNOSTICS: INITIATE COMMUNICATION
@@ -320,7 +320,7 @@
                     <p class="text-gray-400 mb-8">
                         To ensure efficient resource allocation, please provide the following system parameters.
                     </p>
-                    <form action="https://formspree.io/f/xqayllyb" method="POST" class="space-y-6">
+                    <form onsubmit="submitContactForm(event)" method="POST" class="space-y-6" id="contact-form">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Name Input -->
                             <div class="col-span-1">
@@ -379,7 +379,7 @@
                         <!-- Submit Button -->
                         <div class="pt-4">
                             <button type="submit"
-                                class="w-full bg-cyan-accent text-gray-900 font-bold tracking-widest uppercase py-3 rounded-xl hover:bg-white transition duration-300 shadow-lg hover:shadow-cyan-accent/50 text-base flex items-center justify-center">
+                                class="w-full bg-cyan-accent text-gray-900 font-bold tracking-widest uppercase py-3 rounded-xl hover:bg-white transition duration-300 shadow-lg hover:shadow-cyan-accent/50 text-base flex items-center justify-center" id="submit-button">
                                 INITIATE TRANSMISSION
                                 <i data-lucide="send" class="w-5 h-5 ml-2"></i>
                             </button>
@@ -429,6 +429,92 @@
         // Function to close the modal
         function closeModal() {
             document.getElementById('dataModal').style.display = 'none';
+        }
+
+        // --- FORM SUBMISSION HANDLER (AJAX) ---
+        async function submitContactForm(event) {
+            event.preventDefault(); 
+
+            const form = event.target;
+            const container = document.getElementById('contact-form-container');
+            const submitButton = document.getElementById('submit-button');
+
+            // Replace with your actual Formspree endpoint!
+            const formspreeEndpoint = "https://formspree.io/f/xqayllyb"; // Placeholder URL (replace this)
+            
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => (data[key] = value));
+
+            // Show Loading State
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i data-lucide="loader" class="w-5 h-5 mr-2 animate-spin"></i> TRANSMITTING DATA...`;
+            lucide.createIcons();
+
+            try {
+                const response = await fetch(formspreeEndpoint, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // SUCCESS MESSAGE (Branded)
+                    container.innerHTML = `
+                        <div class="text-center py-10">
+                            <i data-lucide="check-circle" class="w-16 h-16 text-cyan-accent mx-auto mb-4"></i>
+                            <h2 class="text-3xl font-extrabold text-cyan-accent mb-2">
+                                TRANSMISSION COMPLETE.
+                            </h2>
+                            <p class="text-lg text-gray-400 mb-6">
+                                Your data stream has been successfully received by the Epoch 6 Network. 
+                                A support engineer will initiate contact via your registered address shortly.
+                            </p>
+                            <button onclick="closeModal()" class="inline-block border border-gray-700 text-gray-400 font-semibold px-8 py-3 rounded-xl hover:text-white hover:border-white transition duration-300 mt-4">
+                                CLOSE PROTOCOL
+                            </button>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                } else {
+                    // FAILURE MESSAGE
+                     container.innerHTML = `
+                        <div class="text-center py-10">
+                            <i data-lucide="x-circle" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+                            <h2 class="text-3xl font-extrabold text-red-500 mb-2">
+                                ERROR: TRANSMISSION FAILURE.
+                            </h2>
+                            <p class="text-lg text-gray-400 mb-6">
+                                The system encountered an error. Please try again or reach out directly to support@epoch6labs.com.
+                            </p>
+                             <button onclick="closeModal()" class="inline-block border border-gray-700 text-gray-400 font-semibold px-8 py-3 rounded-xl hover:text-white hover:border-white transition duration-300 mt-4">
+                                CLOSE PROTOCOL
+                            </button>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                }
+
+            } catch (error) {
+                // Network or other critical error
+                container.innerHTML = `
+                        <div class="text-center py-10">
+                            <i data-lucide="wifi-off" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+                            <h2 class="text-3xl font-extrabold text-red-500 mb-2">
+                                ERROR: NETWORK OFFLINE.
+                            </h2>
+                            <p class="text-lg text-gray-400 mb-6">
+                                Cannot reach the network. Please check your connection and try again.
+                            </p>
+                             <button onclick="closeModal()" class="inline-block border border-gray-700 text-gray-400 font-semibold px-8 py-3 rounded-xl hover:text-white hover:border-white transition duration-300 mt-4">
+                                CLOSE PROTOCOL
+                            </button>
+                        </div>
+                    `;
+                lucide.createIcons();
+            }
         }
 
 
