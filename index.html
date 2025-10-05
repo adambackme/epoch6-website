@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epoch 6: Biofuel Matrix - Advanced Cellular Protocol</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for high-tech simplicity -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-base: #101010;
+            --color-text: #F8F8F8;
+            --color-accent: #00CCFF;
+            --color-secondary: #B0B0B0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-base);
+            color: var(--color-text);
+            scroll-behavior: smooth;
+        }
+        .text-cyan-accent {
+            color: var(--color-accent);
+        }
+        .bg-cyan-accent {
+            background-color: var(--color-accent);
+        }
+        /* Custom styling for the product image container (Holds the image, no background) */
+        .product-image-container {
+            border-radius: 1.5rem;
+            width: 100%; /* Ensure container fills parent */
+            max-width: 320px; 
+            overflow: hidden; /* Crucial for ensuring the image inside respects the border-radius */
+        }
+        /* Apply the drop-shadow filter directly to the image for a glow that follows the bottle's shape */
+        .product-glow {
+            filter: drop-shadow(0 0 20px var(--color-accent)); /* Precision Cyan Glow */
+            transition: filter 0.5s; 
+        }
+        /* Style for the subtle grid background pattern in sections */
+        .grid-pattern {
+            background-image: linear-gradient(to right, rgba(176, 176, 176, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(176, 176, 176, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Modal specific styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(16, 16, 16, 0.95); /* Dark background with slight transparency */
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            /* Mobile Optimization: Use 95% max-width and smaller padding */
+            margin: 5% auto; 
+            padding: 1.5rem; /* Smaller padding for mobile */
+            max-width: 95%; /* Wider view for mobile */
+            border-radius: 1.5rem;
+            border: 1px solid var(--color-accent);
+            background-color: var(--color-base);
+        }
+        /* Desktop override for size and padding */
+        @media (min-width: 768px) {
+            .modal-content {
+                padding: 3rem; /* Larger padding for desktop */
+                max-width: 80%; /* Original max width for desktop */
+            }
+        }
+        .close-button {
+            color: var(--color-accent);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--color-secondary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Modal Structure -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <div id="modal-title" class="text-3xl font-bold mb-4 text-cyan-accent"></div>
+            <div id="modal-body" class="text-gray-300 space-y-4">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-[#101010]/90 backdrop-blur-sm shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo & Brand Name -->
+            <a href="#" class="flex items-center text-xl font-bold tracking-widest uppercase">
+                <!-- Simple Logo (Loop/Cycle) -->
+                <svg class="w-6 h-6 mr-2 text-cyan-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01-5.783 8.243z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l-6.16-3.422a12.083 12.083 0 005.783 8.243z" />
+                </svg>
+                <span class="text-white">EPOCH</span><span class="text-cyan-accent">6</span>
+            </a>
+            <!-- Navigation Links (Minimalist) -->
+            <nav class="space-x-8 hidden sm:block text-sm">
+                <a href="#science" class="text-white hover:text-cyan-accent transition duration-300">The Science</a>
+                <a href="#benefits" class="text-white hover:text-cyan-accent transition duration-300">Core Four</a>
+                <a href="#protocol" class="text-white hover:text-cyan-accent transition duration-300">Protocol</a>
+            </nav>
+            <!-- UPDATED: Header CTA links to the Product Page -->
+            <a href="product_page.html#purchase" class="bg-cyan-accent text-gray-900 font-semibold px-4 py-2 rounded-lg text-sm hover:bg-white transition duration-300 hidden sm:block">
+                ACCESS THE PROTOCOL
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- A. Hero Section: The Promise -->
+        <section class="relative pt-20 pb-24 md:pt-32 md:pb-40 grid-pattern overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+                
+                <!-- Text Content -->
+                <div class="md:w-1/2 mb-12 md:mb-0 text-center md:text-left">
+                    <p class="text-cyan-accent text-sm font-medium tracking-widest uppercase mb-4">NAD+ CELLULAR PROTOCOL</p>
+                    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight text-white mb-6">
+                        THE NEXT <span class="text-cyan-accent">ERA</span> OF HUMAN PERFORMANCE IS HERE.
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-lg mx-auto md:mx-0">
+                        Fuel your potential with **Biofuel Matrix**, the clinically-focused protocol designed to reset your cellular engine and master your <span class="text-white font-medium">healthspan</span>.
+                    </p>
+                    <!-- UPDATED: Hero CTA links to the Product Page -->
+                    <a href="product_page.html#purchase" class="inline-block bg-cyan-accent text-gray-900 font-bold px-10 py-4 rounded-xl text-lg hover:bg-white transition duration-300 shadow-xl hover:shadow-cyan-accent/50" id="cta">
+                        ACCESS THE PROTOCOL
+                    </a>
+                </div>
+
+                <!-- Product Image -->
+                <div class="md:w-1/2 flex justify-center">
+                    <!-- Adjusted size classes for smaller appearance, max-width now dictates size -->
+                    <div class="product-image-container w-60 md:w-72 lg:w-80 relative rotate-3 hover:rotate-0 transition-transform duration-500">
+                        <img 
+                            src="https://res.cloudinary.com/dfygdydcj/image/upload/v1759608601/EPOCH_MATRIX_gteti4.png" 
+                            alt="Epoch 6 Biofuel Matrix product bottle, white with black label" 
+                            class="w-full h-full object-contain product-glow"
+                            onerror="this.onerror=null; this.src='https://placehold.co/600x600/ffffff/101010?text=EPOCH+6%0A+BIOFUEL+MATRIX';"
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- B. The Problem: The Decline -->
+        <section class="py-24 bg-gray-900" id="science">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-bold mb-6 text-white">YOUR AMBITION DEMANDS MORE.</h2>
+                <div class="h-1 bg-cyan-accent w-16 mx-auto mb-10 rounded-full"></div>
+                <p class="text-xl text-gray-400 max-w-4xl mx-auto">
+                    By your 40s, the foundational cellular energy molecule, **NAD+**, can decline by up to 50%. This isn't simply aging—it's a system bottleneck limiting your peak performance in energy, focus, and recovery. Biofuel Matrix is engineered to directly address this critical decline.
+                </p>
+            </div>
+        </section>
+        
+        <!-- C. The Solution: The Epoch 6 Difference -->
+        <section class="py-24 grid-pattern">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="md:grid md:grid-cols-2 md:gap-16 items-center">
+                    <div class="mb-12 md:mb-0">
+                        <p class="text-sm text-cyan-accent font-semibold uppercase tracking-widest mb-2">The Epoch 6 Protocol</p>
+                        <h3 class="text-4xl font-bold mb-6">ENGINEERED FOR PEAK CELLULAR EFFICIENCY.</h3>
+                        <p class="text-lg text-gray-400 mb-6">
+                            Biofuel Matrix is not a traditional supplement. It's an **advanced, proprietary system** created to support the core metabolic engine that supports you. We provide the essential NAD+ precursor that revitalizes your cell's power grid.
+                        </p>
+                        <ul class="space-y-3 text-white text-md">
+                            <li class="flex items-start">
+                                <span class="text-cyan-accent mr-3 mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                                <span>High-Purity 500mg NAD+ Precursor Foundation.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-accent mr-3 mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                                <span>Synergistic Quercetin & Resveratrol for system protection.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-accent mr-3 mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                                <span>Precisely formulated for maximum bioavailability.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Scientific Diagram Mockup -->
+                    <div class="bg-gray-800 p-8 rounded-3xl shadow-2xl relative overflow-hidden h-64 flex items-center justify-center">
+                        <p class="text-cyan-accent text-lg font-mono">
+                            <i data-lucide="scan" class="w-10 h-10 mx-auto mb-2 text-cyan-accent"></i>
+                            CELLULAR SALVAGE PATHWAY OPTIMIZED
+                        </p>
+                        <div class="absolute w-full h-full border-4 border-cyan-accent/20 rounded-3xl animate-pulse opacity-25"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- D. Key Benefits: The Core Four Advantage -->
+        <section class="py-24 bg-gray-900" id="benefits">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-sm text-cyan-accent font-semibold uppercase tracking-widest mb-2">The Core Four Advantage</h2>
+                <h3 class="text-4xl font-bold mb-16 text-white">SYSTEM UPGRADES YOU CAN FEEL.</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                    
+                    <!-- Benefit 1: Longevity -->
+                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
+                        <i data-lucide="dna" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
+                        <h4 class="text-xl font-semibold mb-3">ADVANCED HEALTHSPAN</h4>
+                        <p class="text-gray-400 text-sm">Supports efficient DNA repair and longevity processes, helping to sustain your biological prime.*</p>
+                    </div>
+
+                    <!-- Benefit 2: Energy -->
+                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
+                        <i data-lucide="zap" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
+                        <h4 class="text-xl font-semibold mb-3">SUSTAINED VITALITY</h4>
+                        <p class="text-gray-400 text-sm">Fuels mitochondrial function for crash-free, system-wide energy, optimizing your daily output.*</p>
+                    </div>
+
+                    <!-- Benefit 3: Focus -->
+                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
+                        <i data-lucide="brain" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
+                        <h4 class="text-xl font-semibold mb-3">COGNITIVE CLARITY</h4>
+                        <p class="text-gray-400 text-sm">Supports neurological wellness and optimal focus, crucial for high-demand professional states.*</p>
+                    </div>
+
+                    <!-- Benefit 4: Metabolism -->
+                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
+                        <i data-lucide="activity" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
+                        <h4 class="text-xl font-semibold mb-3">METABOLIC MASTERY</h4>
+                        <p class="text-gray-400 text-sm">Assists the body in regulating healthy metabolic function, ensuring peak physical and cellular output.*</p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-10">
+                    *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
+                </p>
+            </div>
+        </section>
+
+        <!-- E. Social Proof / Testimonial -->
+        <section class="py-24 grid-pattern">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <blockquote class="text-3xl md:text-4xl italic font-light text-white mb-8 leading-snug">
+                    <span class="text-cyan-accent">"</span>As a founder, my energy is my currency. Biofuel Matrix is the only protocol that gives me the sustained, deep energy I need to operate at my absolute peak.<span class="text-cyan-accent">"</span>
+                </blockquote>
+                <p class="text-lg font-semibold text-cyan-accent">— Dr. Lena Chen, Bio-Tech Founder</p>
+                <div class="mt-12">
+                    <!-- VERIFY THE RESULTS button links to the Protocol section (final CTA) -->
+                    <a href="#protocol" class="inline-block border border-cyan-accent text-cyan-accent font-semibold px-8 py-3 rounded-xl hover:bg-cyan-accent hover:text-gray-900 transition duration-300">
+                        VERIFY THE RESULTS
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- F. Final CTA Section -->
+        <section class="py-20 bg-gray-900 text-center" id="protocol">
+            <h2 class="text-4xl font-bold mb-4 text-white">ARE YOU READY FOR YOUR NEXT EPOCH?</h2>
+            <p class="text-xl text-gray-400 mb-8">Upgrade your system. Master your performance. Extend your healthspan.</p>
+            <!-- UPDATED: Final CTA links to the Product Page -->
+            <a href="product_page.html#purchase" class="inline-block bg-cyan-accent text-gray-900 font-bold px-12 py-4 rounded-xl text-xl hover:bg-white transition duration-300 shadow-xl hover:shadow-cyan-accent/50">
+                OPTIMIZE NOW
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#101010] py-12 border-t border-gray-800 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mb-4">© 2025 EPOCH 6 LABS. All rights reserved.</p>
+            <div class="space-x-4">
+                <!-- Links trigger the modal, passing content ID and Title -->
+                <button onclick="openModal('terms', 'EPOCH 6 LABS: TERMS OF ACCESS PROTOCOL')" class="hover:text-cyan-accent transition duration-300">Terms of Service</button>
+                <button onclick="openModal('privacy', 'EPOCH 6 LABS: DATA INTEGRITY POLICY')" class="hover:text-cyan-accent transition duration-300">Privacy Policy</button>
+                <button onclick="openModal('contact', 'EPOCH 6 LABS: CONTACT SUPPORT PROTOCOL')" class="hover:text-cyan-accent transition duration-300">Contact Support</button>
+            </div>
+            <p class="mt-6 text-xs text-gray-500 max-w-2xl mx-auto">
+                Formulated for Epoch 6 Labs. Product is made in the USA. Address: [Your Full Legal Address]. Support: support@epoch6labs.com.
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+
+        // --- MODAL LOGIC AND CONTENT INJECTION ---
+        const MODAL_CONTENT = {
+            terms: `# EPOCH 6 LABS: TERMS OF ACCESS PROTOCOL\n\n## Effective Date: October 4, 2025\n\nWelcome to the Epoch 6 Cellular Optimization Network. These Terms of Service ("Protocol") govern your access to and use of our website, products (including Biofuel Matrix), and services (collectively, the "System"). By accessing or using the System, you agree to be bound by this Protocol.\n\n### 1. Acceptance of Terms\n\nBy placing an order or engaging with our content, you confirm that you are over the age of 18 and accept this Protocol in its entirety. If you do not agree to these terms, you may not access the System.\n\n### 2. Digital Product Use\n\nEpoch 6 Labs products are proprietary dietary supplements. All purchases grant you a license for personal use only. Resale or unauthorized distribution is strictly prohibited.\n\n### 3. Medical Disclaimer\n\nThe information on this site and the products sold are not intended to diagnose, treat, cure, or prevent any disease. Our products have not been evaluated by the FDA. **ALWAYS consult your physician** before starting any new supplement regimen. You use Biofuel Matrix at your own risk.\n\n### 4. Intellectual Property\n\nAll content, branding (EPOCH 6, BIOFUEL MATRIX), and site design are the exclusive property of [Your LLC Name Here] and are protected by copyright and intellectual property laws.\n\n### 5. Limitation of Liability\n\nEpoch 6 Labs and its suppliers will not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use the product or System.\n\n### 6. Governing Law\n\nThis Protocol shall be governed by and construed in accordance with the laws of [Your Jurisdiction/State].\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
+
+            privacy: `# EPOCH 6 LABS: DATA INTEGRITY POLICY\n\n## Effective Date: October 4, 2025\n\nAt Epoch 6 Labs, the integrity of your personal data is paramount. This policy outlines how we collect, use, and protect your information within the scope of our Cellular Optimization Network.\n\n### 1. Data Collection & Use\n\nWe collect data necessary for transaction processing, delivery, and system improvement. This includes:\n* **Identity Data:** Name, email address, shipping address (for fulfillment).\n* **Transaction Data:** Purchase history and payment details (processed securely by third-party payment processors like PayPal; we do not store full payment card numbers).\n* **Usage Data:** IP address, browser type, and interaction data (for site optimization and security).\n\nYour data is used solely to fulfill orders, process payments, and communicate proprietary system updates and offers.\n\n### 2. Data Security\n\nWe utilize industry-standard, encrypted security protocols to ensure the integrity of your personal information. Data access is restricted to authorized personnel only.\n\n### 3. Data Sharing\n\nWe do not sell your personal data. We only share necessary information with trusted third parties for the purpose of fulfilling your order (e.g., shipping carriers, payment processors).\n\n### 4. Your Rights (Data Access Protocol)\n\nYou have the right to request access to or deletion of your personal data. To initiate a data request, please contact us via the Contact Support channel.\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
+
+            contact: `
+                <div class="grid-pattern p-6 rounded-xl border border-cyan-accent/50">
+                    <h2 class="text-3xl font-extrabold text-cyan-accent mb-6 flex items-center">
+                        <i data-lucide="monitor-dot" class="w-8 h-8 mr-3"></i>
+                        SYSTEM DIAGNOSTICS: INITIATE COMMUNICATION
+                    </h2>
+                    <p class="text-gray-400 mb-8">
+                        To ensure efficient resource allocation, please provide the following system parameters.
+                    </p>
+                    <form action="#" method="POST" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Name Input -->
+                            <div class="col-span-1">
+                                <label for="name" class="block text-sm font-medium text-cyan-accent">
+                                    USER IDENTIFIER (Name)
+                                </label>
+                                <input type="text" name="name" id="name" required
+                                    class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
+                                    placeholder="Jane Doe">
+                            </div>
+                            <!-- Email Input -->
+                            <div class="col-span-1">
+                                <label for="email" class="block text-sm font-medium text-cyan-accent">
+                                    CONTACT ADDRESS (Email)
+                                </label>
+                                <input type="email" name="email" id="email" required
+                                    class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
+                                    placeholder="protocol@system.com">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Issue Type Dropdown -->
+                            <div class="col-span-1">
+                                <label for="issue" class="block text-sm font-medium text-cyan-accent">
+                                    SYSTEM MALFUNCTION CATEGORY
+                                </label>
+                                <select id="issue" name="issue" required
+                                    class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono">
+                                    <option value="">-- Select Category --</option>
+                                    <option value="order">Order/Tracking Status</option>
+                                    <option value="formula">Formulation/Science Query</option>
+                                    <option value="billing">Payment/Billing Issue</option>
+                                    <option value="feedback">System Feedback/General</option>
+                                </select>
+                            </div>
+                            <!-- Order Number Input -->
+                            <div class="col-span-1">
+                                <label for="order_number" class="block text-sm font-medium text-cyan-accent">
+                                    TRANSACTION ID (Order #)
+                                </label>
+                                <input type="text" name="order_number" id="order_number"
+                                    class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
+                                    placeholder="Optional: 6-DIGIT ID">
+                            </div>
+                        </div>
+
+                        <!-- Message Textarea -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-cyan-accent">
+                                DATA STREAM (Detailed Message)
+                            </label>
+                            <textarea id="message" name="message" rows="4" required
+                                class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono"
+                                placeholder="Enter detailed system report here..."></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button type="submit"
+                                class="w-full bg-cyan-accent text-gray-900 font-bold tracking-widest uppercase py-3 rounded-xl hover:bg-white transition duration-300 shadow-lg hover:shadow-cyan-accent/50 text-base flex items-center justify-center">
+                                INITIATE TRANSMISSION
+                                <i data-lucide="send" class="w-5 h-5 ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-xs text-gray-600 mt-4 text-center">
+                        All transmitted data is handled according to the Data Integrity Policy.
+                    </p>
+                </div>
+            `
+        };
+
+        // Function to convert Markdown to HTML (basic)
+        function markdownToHtml(markdown) {
+            let html = markdown
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\n\n/g, '</p><p>');
+            return '<p>' + html + '</p>';
+        }
+
+        // Function to open the modal and inject content
+        function openModal(contentType, title) {
+            const modal = document.getElementById('dataModal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const content = MODAL_CONTENT[contentType] || "Content Unavailable: Data Integrity Error.";
+
+            // If the content is the Contact form (injects HTML directly)
+            if (contentType === 'contact') {
+                modalTitle.style.display = 'none'; // Hide the duplicate title for the custom form
+                modalBody.innerHTML = content;
+                lucide.createIcons(); // Re-initialize icons immediately after injection
+            } else {
+                // Otherwise, use the standard Markdown parser
+                modalTitle.style.display = 'block';
+                modalTitle.textContent = title;
+                modalBody.innerHTML = markdownToHtml(content);
+            }
+
+            // Show the modal
+            modal.style.display = 'block';
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('dataModal').style.display = 'none';
+        }
+
+        // Close the modal if the user clicks anywhere outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
