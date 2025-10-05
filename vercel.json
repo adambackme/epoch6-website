@@ -1,0 +1,8 @@
+{
+"rewrites": [
+{
+"source": "/access",
+"destination": "/pre_launch_signup.html"
+}
+]
+}
