@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epoch 6: Biofuel Matrix - Advanced Cellular Protocol</title>
+    <title>Buy Epoch 6: Biofuel Matrix - Cellular Optimization</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Lucide Icons for high-tech simplicity -->
@@ -29,28 +29,48 @@
         .bg-cyan-accent {
             background-color: var(--color-accent);
         }
-        /* Custom styling for the product image container (Holds the image, no background) */
+        /* Custom styling for the product image container: Ensures the container defines the curve and square shape */
         .product-image-container {
-            border-radius: 1.5rem;
-            width: 100%; /* Ensure container fills parent */
-            max-width: 320px; 
-            overflow: hidden; /* Crucial for ensuring the image inside respects the border-radius */
+            border-radius: 1.5rem; /* Ensures curved corners on the container */
+            aspect-ratio: 1 / 1; /* Forces the container to be square */
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* CRUCIAL: Clips the inner image to the container's border-radius */
         }
-        /* Apply the drop-shadow filter directly to the image for a glow that follows the bottle's shape */
-        .product-glow {
-            filter: drop-shadow(0 0 20px var(--color-accent)); /* Precision Cyan Glow */
-            transition: filter 0.5s; 
+        
+        /* FIX: Ensure the image inside the container conforms to the clipping */
+        .product-image-container img {
+            border-radius: 1.5rem; /* Match the container's radius */
         }
+        
         /* Style for the subtle grid background pattern in sections */
         .grid-pattern {
             background-image: linear-gradient(to right, rgba(176, 176, 176, 0.1) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(176, 176, 176, 0.1) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-
-        /* Modal specific styles */
+        /* Simple table styling for ingredient breakdown */
+        .data-table th, .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--color-secondary);
+            text-align: left;
+        }
+        .data-table th {
+            color: var(--color-accent);
+        }
+        .data-table {
+             width: 100%;
+             color: var(--color-text);
+        }
+        .thumbnail-active {
+            border-color: var(--color-accent) !important;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+        }
+        
+        /* --- MODAL specific styles for mobile optimization --- */
         .modal {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed;
             z-index: 100;
             left: 0;
@@ -58,14 +78,14 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(16, 16, 16, 0.95); /* Dark background with slight transparency */
+            background-color: rgba(16, 16, 16, 0.95);
             backdrop-filter: blur(8px);
         }
         .modal-content {
             /* Mobile Optimization: Use 95% max-width and smaller padding */
             margin: 5% auto; 
-            padding: 1.5rem; /* Smaller padding for mobile */
-            max-width: 95%; /* Wider view for mobile */
+            padding: 1.5rem; 
+            max-width: 95%; 
             border-radius: 1.5rem;
             border: 1px solid var(--color-accent);
             background-color: var(--color-base);
@@ -73,8 +93,8 @@
         /* Desktop override for size and padding */
         @media (min-width: 768px) {
             .modal-content {
-                padding: 3rem; /* Larger padding for desktop */
-                max-width: 80%; /* Original max width for desktop */
+                padding: 3rem; 
+                max-width: 80%;
             }
         }
         .close-button {
@@ -90,14 +110,98 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* --- IMAGE VIEWER MODAL STYLES --- */
+        #imageViewerModal {
+            z-index: 1000;
+            background-color: rgba(16, 16, 16, 0.98); 
+        }
+        .image-viewer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            padding: 1rem;
+            position: relative; /* Allows zoomed image to be positioned */
+            overflow: hidden; /* Prevents scrollbars on the modal background */
+        }
+        #zoomed-image {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: zoom-in;
+            transition: transform 0.3s ease-out;
+            transform: scale(1) translate(0, 0); /* Include translate for panning */
+            pointer-events: all; /* Important for drag events */
+        }
+        #zoomed-image.zoomed {
+            cursor: grab; /* Indicates image can be moved */
+            transform: scale(1.5) translate(0, 0); 
+            max-width: none;
+            max-height: none;
+        }
+        #zoomed-image.zoomed.dragging {
+            cursor: grabbing;
+        }
+        .viewer-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: var(--color-accent);
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background-color: rgba(16, 16, 16, 0.7);
+        }
+
+        /* Modal Gallery Arrow Styles (Only visible in the Modal) */
+        .modal-gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--color-accent);
+            background-color: rgba(16, 16, 16, 0.6);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        .modal-gallery-arrow:hover {
+            background-color: rgba(16, 16, 16, 0.9);
+        }
+        
+        /* Main Product Gallery Arrow Styles (Hidden on mobile) */
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--color-accent);
+            background-color: rgba(16, 16, 16, 0.6);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        .gallery-arrow:hover {
+            background-color: rgba(16, 16, 16, 0.9);
+        }
+        /* Hide main gallery arrows on mobile */
+        @media (max-width: 639px) {
+            .gallery-arrow {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Modal Structure -->
+    <!-- Modal Structure (Regular Modals for Legal/Contact) -->
     <div id="dataModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
+            <span class="close-button" onclick="closeModal('dataModal')">&times;</span>
             <div id="modal-title" class="text-3xl font-bold mb-4 text-cyan-accent"></div>
             <div id="modal-body" class="text-gray-300 space-y-4">
                 <!-- Content will be injected here -->
@@ -105,12 +209,37 @@
         </div>
     </div>
 
-    <!-- Header / Navigation -->
+    <!-- Modal Structure (New Image Viewer Modal - Includes Arrows) -->
+    <div id="imageViewerModal" class="modal">
+        <div class="image-viewer-content">
+             <button class="viewer-close-btn" onclick="closeModal('imageViewerModal')">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            
+            <!-- Left Arrow (Modal) -->
+            <button class="modal-gallery-arrow left-4" onclick="event.stopPropagation(); switchImage((currentIndex - 1 + imageSources.length) % imageSources.length);">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+
+            <img 
+                id="zoomed-image" 
+                src="" 
+                alt="Zoomed Product View"
+                onclick="toggleZoom()"
+            >
+
+            <!-- Right Arrow (Modal) -->
+            <button class="modal-gallery-arrow right-4" onclick="event.stopPropagation(); switchImage((currentIndex + 1) % imageSources.length);">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Header / Navigation (Reused from LP) -->
     <header class="sticky top-0 z-50 bg-[#101010]/90 backdrop-blur-sm shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <!-- Logo & Brand Name -->
-            <a href="#" class="flex items-center text-xl font-bold tracking-widest uppercase">
-                <!-- Simple Logo (Loop/Cycle) -->
+            <a href="index.html" class="flex items-center text-xl font-bold tracking-widest uppercase">
                 <svg class="w-6 h-6 mr-2 text-cyan-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01-5.783 8.243z" />
@@ -120,172 +249,272 @@
             </a>
             <!-- Navigation Links (Minimalist) -->
             <nav class="space-x-8 hidden sm:block text-sm">
-                <a href="#science" class="text-white hover:text-cyan-accent transition duration-300">The Science</a>
-                <a href="#benefits" class="text-white hover:text-cyan-accent transition duration-300">Core Four</a>
+                <a href="#science" class="text-cyan-accent hover:text-white transition duration-300 font-bold">The Formula</a>
                 <a href="#protocol" class="text-white hover:text-cyan-accent transition duration-300">Protocol</a>
+                <a href="#details" class="text-white hover:text-cyan-accent transition duration-300">Details</a>
             </nav>
-            <!-- UPDATED: Header CTA links to the Product Page -->
-            <a href="product_page.html#purchase" class="bg-cyan-accent text-gray-900 font-semibold px-4 py-2 rounded-lg text-sm hover:bg-white transition duration-300 hidden sm:block">
-                ACCESS THE PROTOCOL
+            <!-- UPDATED: Header BUY NOW button linked to PayPal -->
+            <a id="header-cta-button" href="https://www.paypal.com/ncp/payment/AM5TE6J468MVG" class="bg-cyan-accent text-gray-900 font-semibold px-4 py-2 rounded-lg text-sm hover:bg-white transition duration-300 hidden sm:block">
+                BUY NOW
             </a>
         </div>
     </header>
 
-    <main>
-        <!-- A. Hero Section: The Promise -->
-        <section class="relative pt-20 pb-24 md:pt-32 md:pb-40 grid-pattern overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
-                
-                <!-- Text Content -->
-                <div class="md:w-1/2 mb-12 md:mb-0 text-center md:text-left">
-                    <p class="text-cyan-accent text-sm font-medium tracking-widest uppercase mb-4">NAD+ CELLULAR PROTOCOL</p>
-                    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight text-white mb-6">
-                        THE NEXT <span class="text-cyan-accent">ERA</span> OF HUMAN PERFORMANCE IS HERE.
-                    </h1>
-                    <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-lg mx-auto md:mx-0">
-                        Fuel your potential with **Biofuel Matrix**, the clinically-focused protocol designed to reset your cellular engine and master your <span class="text-white font-medium">healthspan</span>.
-                    </p>
-                    <!-- UPDATED: Hero CTA links to the Product Page -->
-                    <a href="product_page.html#purchase" class="inline-block bg-cyan-accent text-gray-900 font-bold px-10 py-4 rounded-xl text-lg hover:bg-white transition duration-300 shadow-xl hover:shadow-cyan-accent/50" id="cta">
-                        ACCESS THE PROTOCOL
-                    </a>
-                </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-                <!-- Product Image -->
-                <div class="md:w-1/2 flex justify-center">
-                    <!-- Adjusted size classes for smaller appearance, max-width now dictates size -->
-                    <div class="product-image-container w-60 md:w-72 lg:w-80 relative rotate-3 hover:rotate-0 transition-transform duration-500">
+        <!-- 1. Hero / Purchase Block -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start" id="purchase">
+            
+            <!-- A. Image Gallery / Real Image Integration -->
+            <div class="lg:sticky lg:top-28">
+                <!-- Main Image Display (Now has onclick to trigger the viewer) -->
+                <div class="product-image-container mb-6 cursor-pointer rounded-xl relative" id="main-image-container" onclick="openImageViewer()">
+                    <!-- Left Arrow (Desktop Only) -->
+                    <div class="gallery-arrow left-2 sm:left-4" onclick="event.stopPropagation(); switchImage((currentIndex - 1 + imageSources.length) % imageSources.length);">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </div>
+                    
+                    <img 
+                        id="main-product-image"
+                        src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579574-generated-label-image-0.jpeg" 
+                        alt="Epoch 6 Biofuel Matrix main view" 
+                        class="h-full object-contain max-h-96 rounded-xl"
+                        onclick="openImageViewer()"
+                    >
+
+                    <!-- Right Arrow (Desktop Only) -->
+                    <div class="gallery-arrow right-2 sm:right-4" onclick="event.stopPropagation(); switchImage((currentIndex + 1) % imageSources.length);">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </div>
+                </div>
+                
+                <!-- Thumbnails -->
+                <div class="flex space-x-4 justify-center" id="thumbnail-gallery">
+                    <!-- Thumbnail 1 (Main view) -->
+                    <div class="w-16 h-16 bg-gray-800 rounded-lg border-2 border-gray-700 cursor-pointer p-1 thumbnail-active" data-index="0" data-src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579574-generated-label-image-0.jpeg">
                         <img 
-                            src="https://res.cloudinary.com/dfygdydcj/image/upload/v1759608601/EPOCH_MATRIX_gteti4.png" 
-                            alt="Epoch 6 Biofuel Matrix product bottle, white with black label" 
-                            class="w-full h-full object-contain product-glow"
-                            onerror="this.onerror=null; this.src='https://placehold.co/600x600/ffffff/101010?text=EPOCH+6%0A+BIOFUEL+MATRIX';"
+                            src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579574-generated-label-image-0.jpeg" 
+                            alt="Product view 1" 
+                            class="w-full h-full object-contain"
+                        >
+                    </div>
+                    <!-- Thumbnail 2 (Side view) -->
+                    <div class="w-16 h-16 bg-gray-800 rounded-lg border-2 border-gray-700 cursor-pointer p-1" data-index="1" data-src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579583-generated-label-image-4.jpeg">
+                        <img 
+                            src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579583-generated-label-image-4.jpeg" 
+                            alt="Product view 2" 
+                            class="w-full h-full object-contain"
+                        >
+                    </div>
+                    <!-- Thumbnail 3 (Ingredients view) -->
+                    <div class="w-16 h-16 bg-gray-800 rounded-lg border-2 border-gray-700 cursor-pointer p-1" data-index="2" data-src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579581-generated-label-image-3.jpeg">
+                         <img 
+                            src="https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579581-generated-label-image-3.jpeg" 
+                            alt="Product view 3" 
+                            class="w-full h-full object-contain"
                         >
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- B. The Problem: The Decline -->
-        <section class="py-24 bg-gray-900" id="science">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl font-bold mb-6 text-white">YOUR AMBITION DEMANDS MORE.</h2>
-                <div class="h-1 bg-cyan-accent w-16 mx-auto mb-10 rounded-full"></div>
-                <p class="text-xl text-gray-400 max-w-4xl mx-auto">
-                    By your 40s, the foundational cellular energy molecule, **NAD+**, can decline by up to 50%. This isn't simply aging—it's a system bottleneck limiting your peak performance in energy, focus, and recovery. Biofuel Matrix is engineered to directly address this critical decline.
+            <!-- B. Product Details & Purchase Form -->
+            <div>
+                <p class="text-sm text-cyan-accent font-medium tracking-widest uppercase mb-2">NAD+ CELLULAR PROTOCOL</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">
+                    BIOFUEL MATRIX
+                </h1>
+                <h2 class="text-xl text-gray-400 mb-8">CELLULAR OPTIMIZATION | Dietary Supplement</h2>
+
+                <!-- Pricing -->
+                <div class="flex items-baseline mb-3">
+                    <span id="current-price" class="text-4xl font-bold text-white">$69.00</span>
+                    <span id="protocol-duration" class="text-lg text-gray-400 ml-2">/ 30-Day Protocol</span>
+                </div>
+                <!-- FREE SHIPPING CALLOUT -->
+                <p class="flex items-center text-md text-cyan-accent font-semibold mb-6">
+                    <i data-lucide="truck" class="w-5 h-5 mr-2"></i> FREE U.S. SHIPPING ON ALL ORDERS
                 </p>
-            </div>
-        </section>
-        
-        <!-- C. The Solution: The Epoch 6 Difference -->
-        <section class="py-24 grid-pattern">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="md:grid md:grid-cols-2 md:gap-16 items-center">
-                    <div class="mb-12 md:mb-0">
-                        <p class="text-sm text-cyan-accent font-semibold uppercase tracking-widest mb-2">The Epoch 6 Protocol</p>
-                        <h3 class="text-4xl font-bold mb-6">ENGINEERED FOR PEAK CELLULAR EFFICIENCY.</h3>
-                        <p class="text-lg text-gray-400 mb-6">
-                            Biofuel Matrix is not a traditional supplement. It's an **advanced, proprietary system** created to support the core metabolic engine that supports you. We provide the essential NAD+ precursor that revitalizes your cell's power grid.
-                        </p>
-                        <ul class="space-y-3 text-white text-md">
-                            <li class="flex items-start">
-                                <span class="text-cyan-accent mr-3 mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
-                                <span>High-Purity 500mg NAD+ Precursor Foundation.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-cyan-accent mr-3 mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
-                                <span>Synergistic Quercetin & Resveratrol for system protection.</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-cyan-accent mr-3 mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
-                                <span>Precisely formulated for maximum bioavailability.</span>
-                            </li>
-                        </ul>
+
+                <!-- Key Benefits List -->
+                <ul class="space-y-3 text-white mb-8 border-l-4 border-cyan-accent pl-4">
+                    <li class="flex items-center text-md">
+                        <i data-lucide="zap" class="w-5 h-5 text-cyan-accent mr-3"></i>
+                        <span>Fuels **Mitochondrial Function** for sustained energy.</span>
+                    </li>
+                    <li class="flex items-center text-md">
+                        <i data-lucide="dna" class="w-5 h-5 text-cyan-accent mr-3"></i>
+                        <span>Supports **Cellular Longevity** and DNA repair.</span>
+                    </li>
+                    <li class="flex items-center text-md">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-cyan-accent mr-3"></i>
+                        <span>Enhanced with Quercetin and Resveratrol for **system protection**.</span>
+                    </li>
+                </ul>
+
+                <!-- Quantity & CTA -->
+                <div class="space-y-4">
+                    <label for="quantity" class="block text-sm font-medium text-gray-400">Select Protocol Duration (60 CAPSULES)</label>
+                    <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                        <select id="quantity-selector" onchange="updatePurchaseDetails()" class="bg-gray-800 border border-gray-700 text-white rounded-lg p-3 w-full sm:w-32 focus:ring-cyan-accent focus:border-cyan-accent transition">
+                            <option value="1">1 Bottle (30 Days)</option>
+                            <option value="2">2 Bottles (60 Days) - Save 10%</option>
+                            <option value="3">3 Bottles (90 Days) - Save 15%</option>
+                        </select>
+                        <!-- UPDATED: Main purchase button linked to PayPal, full width on mobile -->
+                        <a id="cta-button" href="https://www.paypal.com/ncp/payment/AM5TE6J468MVG" class="w-full sm:w-auto bg-cyan-accent text-gray-900 font-bold px-8 py-4 rounded-xl text-lg hover:bg-white transition duration-300 shadow-xl hover:shadow-cyan-accent/50 text-center">
+                            ADD TO PROTOCOL ($69.00)
+                        </a>
                     </div>
-                    
-                    <!-- Scientific Diagram Mockup -->
-                    <div class="bg-gray-800 p-8 rounded-3xl shadow-2xl relative overflow-hidden h-64 flex items-center justify-center">
-                        <p class="text-cyan-accent text-lg font-mono">
-                            <i data-lucide="scan" class="w-10 h-10 mx-auto mb-2 text-cyan-accent"></i>
-                            CELLULAR SALVAGE PATHWAY OPTIMIZED
-                        </p>
-                        <div class="absolute w-full h-full border-4 border-cyan-accent/20 rounded-3xl animate-pulse opacity-25"></div>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="mt-8 pt-8 border-t border-gray-800">
+                    <p class="text-sm text-gray-400 mb-3 uppercase tracking-wider">Commitment to Integrity:</p>
+                    <div class="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-3 text-gray-500">
+                        <span class="flex items-center"><i data-lucide="flask-conical" class="w-5 h-5 mr-2 text-cyan-accent"></i> LAB VERIFIED</span>
+                        <span class="flex items-center"><i data-lucide="map-pin" class="w-5 h-5 mr-2 text-cyan-accent"></i> MADE IN USA</span>
+                        <span class="flex items-center"><i data-lucide="award" class="w-5 h-5 mr-2 text-cyan-accent"></i> GMP CERTIFIED</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- D. Key Benefits: The Core Four Advantage -->
-        <section class="py-24 bg-gray-900" id="benefits">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-sm text-cyan-accent font-semibold uppercase tracking-widest mb-2">The Core Four Advantage</h2>
-                <h3 class="text-4xl font-bold mb-16 text-white">SYSTEM UPGRADES YOU CAN FEEL.</h3>
+        <!-- 2. Ingredient Deep Dive: The Science -->
+        <section class="py-24 grid-pattern" id="science">
+            <h2 class="text-center text-sm text-cyan-accent font-semibold uppercase tracking-widest mb-2">The Biofuel Matrix Advantage</h2>
+            <h3 class="4xl font-bold mb-16 text-white text-center">THE CELLULAR ARCHITECTURE.</h3>
+
+            <div class="max-w-6xl mx-auto space-y-16">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                    
-                    <!-- Benefit 1: Longevity -->
-                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
-                        <i data-lucide="dna" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
-                        <h4 class="text-xl font-semibold mb-3">ADVANCED HEALTHSPAN</h4>
-                        <p class="text-gray-400 text-sm">Supports efficient DNA repair and longevity processes, helping to sustain your biological prime.*</p>
+                <!-- Ingredient 1: NAD+ Precursor -->
+                <div class="md:grid md:grid-cols-3 gap-10 items-center">
+                    <div class="md:col-span-1 mb-6 md:mb-0 text-center sm:text-left">
+                        <i data-lucide="plug-zap" class="w-12 h-12 text-cyan-accent mb-3 inline-block sm:block"></i>
+                        <h4 class="text-3xl font-bold">NAD+ PRECURSOR</h4>
+                        <p class="text-lg text-gray-400">500MG FOUNDATION</p>
                     </div>
-
-                    <!-- Benefit 2: Energy -->
-                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
-                        <i data-lucide="zap" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
-                        <h4 class="text-xl font-semibold mb-3">SUSTAINED VITALITY</h4>
-                        <p class="text-gray-400 text-sm">Fuels mitochondrial function for crash-free, system-wide energy, optimizing your daily output.*</p>
-                    </div>
-
-                    <!-- Benefit 3: Focus -->
-                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
-                        <i data-lucide="brain" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
-                        <h4 class="text-xl font-semibold mb-3">COGNITIVE CLARITY</h4>
-                        <p class="text-gray-400 text-sm">Supports neurological wellness and optimal focus, crucial for high-demand professional states.*</p>
-                    </div>
-
-                    <!-- Benefit 4: Metabolism -->
-                    <div class="p-6 rounded-xl bg-[#101010] border border-cyan-accent/20 transition duration-300 hover:border-cyan-accent shadow-lg">
-                        <i data-lucide="activity" class="w-10 h-10 text-cyan-accent mb-4 mx-auto"></i>
-                        <h4 class="text-xl font-semibold mb-3">METABOLIC MASTERY</h4>
-                        <p class="text-gray-400 text-sm">Assists the body in regulating healthy metabolic function, ensuring peak physical and cellular output.*</p>
+                    <div class="md:col-span-2 text-gray-400 text-lg">
+                        <p class="mb-4">**THE CORE ENGINE.** NAD+ is the coenzyme that manages cellular energy transfer and DNA repair. We supply the essential material to help **replenish declining reserves** and maintain system vitality. It is the fuel that keeps your internal systems running at optimal capacity.</p>
+                        <p class="text-sm text-cyan-accent font-mono mt-4">FUNCTION: Energy Production, Cellular Repair (DNA Repair)</p>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mt-10">
-                    *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
-                </p>
-            </div>
-        </section>
 
-        <!-- E. Social Proof / Testimonial -->
-        <section class="py-24 grid-pattern">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <blockquote class="text-3xl md:text-4xl italic font-light text-white mb-8 leading-snug">
-                    <span class="text-cyan-accent">"</span>As a founder, my energy is my currency. Biofuel Matrix is the only protocol that gives me the sustained, deep energy I need to operate at my absolute peak.<span class="text-cyan-accent">"</span>
-                </blockquote>
-                <p class="text-lg font-semibold text-cyan-accent">— Dr. Adam Black, Bio-Tech Founder</p>
-                <div class="mt-12">
-                    <!-- VERIFY THE RESULTS button links to the Protocol section (final CTA) -->
-                    <a href="#protocol" class="inline-block border border-cyan-accent text-cyan-accent font-semibold px-8 py-3 rounded-xl hover:bg-cyan-accent hover:text-gray-900 transition duration-300">
-                        VERIFY THE RESULTS
-                    </a>
+                <!-- Divider -->
+                <div class="border-t border-gray-800"></div>
+
+                <!-- Ingredient 2: Quercetin -->
+                <div class="md:grid md:grid-cols-3 gap-10 items-center">
+                    <div class="md:col-span-1 mb-6 md:mb-0 text-center sm:text-left">
+                        <i data-lucide="shield" class="w-12 h-12 text-cyan-accent mb-3 inline-block sm:block"></i>
+                        <h4 class="text-3xl font-bold">QUERCETIN</h4>
+                        <p class="text-lg text-gray-400">250MG SYSTEM PROTECTION</p>
+                    </div>
+                    <div class="md:col-span-2 text-gray-400 text-lg">
+                        <p class="mb-4">**SYSTEM PROTECTION.** A naturally-derived flavonoid that helps promote a normal inflammatory response and supports a **robust, optimized immune function**. It acts as a defense layer for your cellular architecture.</p>
+                        <p class="text-sm text-cyan-accent font-mono mt-4">FUNCTION: Immune Support, Anti-Inflammatory Response</p>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-800"></div>
+
+                <!-- Ingredient 3: Resveratrol -->
+                <div class="md:grid md:grid-cols-3 gap-10 items-center">
+                    <div class="md:col-span-1 mb-6 md:mb-0 text-center sm:text-left">
+                        <i data-lucide="heart" class="w-12 h-12 text-cyan-accent mb-3 inline-block sm:block"></i>
+                        <h4 class="text-3xl font-bold">RESVERATROL</h4>
+                        <p class="text-lg text-gray-400">150MG HEALTHSPAN AMPLIFIER</p>
+                    </div>
+                    <div class="md:col-span-2 text-gray-400 text-lg">
+                        <p class="mb-4">**HEALTHSPAN AMPLIFIER.** Sourced from Japanese Knotweed, Resveratrol supports **cardiovascular integrity** and acts as a powerful complement to NAD+ to promote normal **cellular resilience**. Essential for cognitive and physical longevity.</p>
+                        <p class="text-sm text-cyan-accent font-mono mt-4">FUNCTION: Cardiovascular Integrity, Cognitive Wellness</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- F. Final CTA Section -->
-        <section class="py-20 bg-gray-900 text-center" id="protocol">
-            <h2 class="text-4xl font-bold mb-4 text-white">ARE YOU READY FOR YOUR NEXT EPOCH?</h2>
-            <p class="text-xl text-gray-400 mb-8">Upgrade your system. Master your performance. Extend your healthspan.</p>
-            <!-- UPDATED: Final CTA links to the Product Page -->
-            <a href="product_page.html#purchase" class="inline-block bg-cyan-accent text-gray-900 font-bold px-12 py-4 rounded-xl text-xl hover:bg-white transition duration-300 shadow-xl hover:shadow-cyan-accent/50">
+        <!-- 3. Protocol & Trust -->
+        <section class="py-24 bg-gray-900 grid-pattern" id="protocol">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="4xl font-bold mb-10 text-white text-center">PROTOCOL & TRANSPARENCY</h2>
+
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Dosing Protocol -->
+                <div class="p-8 rounded-xl bg-[#101010] border border-cyan-accent/20 text-center sm:text-left">
+                    <i data-lucide="calendar-check" class="w-8 h-8 text-cyan-accent mb-4 inline-block sm:block mx-auto sm:mx-0"></i>
+                    <h4 class="text-xl font-semibold mb-3">DOSING PROTOCOL</h4>
+                    <p class="text-gray-400 mb-4">
+                        **Suggested Use:** As a daily foundational supplement, adults take **two (2) Biofuel Matrix capsules**.
+                    </p>
+                    <p class="text-sm text-gray-500">
+                       For optimal bioavailability, we recommend taking with a measured 6oz (177ml) of purified water.
+                    </p>
+                </div>
+
+                <!-- Formula Details / Supplement Facts -->
+                <div class="md:col-span-2 p-8 rounded-xl bg-[#101010] border border-cyan-accent/20">
+                    <h4 class="text-xl font-semibold mb-4 text-cyan-accent text-center sm:text-left">SUPPLEMENT FACTS (PER 2 CAPSULES)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>INGREDIENT</th>
+                                    <th>AMOUNT</th>
+                                    <th>%DV</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>NAD+ (Nicotinamide Adenine Dinucleotide)</td>
+                                    <td>500 mg</td>
+                                    <td>*</td>
+                                </tr>
+                                <tr>
+                                    <td>Quercetin Dihydrate Extract (Sophora japonica) (whole flower bud)</td>
+                                    <td>250 mg</td>
+                                    <td>*</td>
+                                </tr>
+                                <tr>
+                                    <td>Japanese Knotweed Extract (98% Resveratrol) (Polygonum cuspidatum) (root)</td>
+                                    <td>150 mg</td>
+                                    <td>*</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">**Other Ingredients:** HPMC (vegetable capsule), Microcrystalline Cellulose (MCC), Brown Rice Flour, Olive Oil, Silicon Dioxide, Magnesium Stearate. *Daily Value not established.</p>
+                </div>
+
+            </div>
+            
+            <!-- Warnings & Manufacturing -->
+            <div class="max-w-6xl mx-auto mt-8 p-8 rounded-xl bg-gray-800 border border-gray-700 text-gray-400 text-sm" id="details">
+                <p class="font-bold uppercase text-red-400 mb-3 text-center sm:text-left">Precision Warning:</p>
+                <p class="mb-3 text-center sm:text-left">Do not exceed recommended dose. Consult a physician if pregnant, nursing, under 18, or with a medical condition. **KEEP OUT OF REACH OF CHILDREN.** Do many other supplemental dietary supplement.</p>
+                <p class="mb-3 text-center sm:text-left">**Secure Storage:** Store in a cool, dry place.</p>
+                <p class="text-cyan-accent font-semibold mt-6 text-center sm:text-left">FORMULATED FOR EPOCH 6 LABS. Manufactured in the USA.</p>
+            </div>
+            <p class="text-xs text-gray-500 mt-6 text-center">
+                *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
+            </p>
+        </section>
+
+        <!-- D. Final CTA Section -->
+        <section class="py-20 bg-gray-900 text-center">
+            <h2 class="text-4xl font-bold mb-4 text-white">READY TO OPTIMIZE YOUR HEALTHSPAN?</h2>
+            <p class="text-xl text-gray-400 mb-8">Begin the Biofuel Matrix Protocol today and unlock peak cellular performance.</p>
+            <!-- UPDATED: Final CTA linked to PayPal -->
+            <a href="https://www.paypal.com/ncp/payment/AM5TE6J468MVG" class="inline-block bg-cyan-accent text-gray-900 font-bold px-12 py-4 rounded-xl text-xl hover:bg-white transition duration-300 shadow-xl hover:shadow-cyan-accent/50">
                 OPTIMIZE NOW
             </a>
         </section>
 
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (Reused from LP) -->
     <footer class="bg-[#101010] py-12 border-t border-gray-800 text-gray-400 text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="mb-4">© 2025 EPOCH 6 LABS. All rights reserved.</p>
@@ -301,11 +530,49 @@
         </div>
     </footer>
     
-    <!-- Initialize Lucide Icons -->
+    <!-- JavaScript for Image Gallery and Modal Logic -->
     <script>
-        lucide.createIcons();
+        // --- GLOBAL VARIABLES (Declared once outside functions) ---
+        // These elements are needed globally for the logic to access them
+        const mainImage = document.getElementById('main-product-image');
+        const thumbnails = document.querySelectorAll('#thumbnail-gallery div[data-index]');
+        const mainImageContainer = document.getElementById('main-image-container');
+        const zoomedImage = document.getElementById('zoomed-image');
+        const imageViewerModal = document.getElementById('imageViewerModal');
+        let currentIndex = 0;
+        let startX = 0;
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let imageX = 0;
+        let imageY = 0;
+        
+        const imageSources = [
+            "https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579574-generated-label-image-0.jpeg",
+            "https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579583-generated-label-image-4.jpeg",
+            "https://storage.googleapis.com/supliful/users/files/13422a85-0131-49e5-882c-1275e4fae099/dfc6657f-f25b-466e-8bb5-9842d92a2787/1759352579581-generated-label-image-3.jpeg"
+        ];
+        
+        // --- PRICING DATA ---
+        const PRICING_TIERS = {
+            '1': {
+                price: 69.00,
+                savings: '30-Day Protocol',
+                link: 'https://www.paypal.com/ncp/payment/AM5TE6J468MVG' // Actual 1-bottle link
+            },
+            '2': {
+                price: 124.20, // $138.00 - 10%
+                savings: 'Save 10% ($13.80)',
+                link: 'https://www.paypal.com/ncp/payment/X7KL42K4VJ7NY' 
+            },
+            '3': {
+                price: 175.95, // $207.00 - 15%
+                savings: 'Save 15% ($31.05)',
+                link: 'https://www.paypal.com/ncp/payment/2TCVAYBS7CT3W' 
+            }
+        };
 
-        // --- MODAL LOGIC AND CONTENT INJECTION ---
+        // --- MODAL CONTENT ---
         const MODAL_CONTENT = {
             terms: `# EPOCH 6 LABS: TERMS OF ACCESS PROTOCOL\n\n## Effective Date: October 4, 2025\n\nWelcome to the Epoch 6 Cellular Optimization Network. These Terms of Service ("Protocol") govern your access to and use of our website, products (including Biofuel Matrix), and services (collectively, the "System"). By accessing or using the System, you agree to be bound by this Protocol.\n\n### 1. Acceptance of Terms\n\nBy placing an order or engaging with our content, you confirm that you are over the age of 18 and accept this Protocol in its entirety. If you do not agree to these terms, you may not access the System.\n\n### 2. Digital Product Use\n\nEpoch 6 Labs products are proprietary dietary supplements. All purchases grant you a license for personal use only. Resale or unauthorized distribution is strictly prohibited.\n\n### 3. Medical Disclaimer\n\nThe information on this site and the products sold are not intended to diagnose, treat, cure, or prevent any disease. Our products have not been evaluated by the FDA. **ALWAYS consult your physician** before starting any new supplement regimen. You use Biofuel Matrix at your own risk.\n\n### 4. Intellectual Property\n\nAll content, branding (EPOCH 6, BIOFUEL MATRIX), and site design are the exclusive property of [Your LLC Name Here] and are protected by copyright and intellectual property laws.\n\n### 5. Limitation of Liability\n\nEpoch 6 Labs and its suppliers will not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use the product or System.\n\n### 6. Governing Law\n\nThis Protocol shall be governed by and construed in accordance with the laws of [Your Jurisdiction/State].\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
 
@@ -320,14 +587,14 @@
                     <p class="text-gray-400 mb-8">
                         To ensure efficient resource allocation, please provide the following system parameters.
                     </p>
-                    <form action="#" method="POST" class="space-y-6">
+                    <form action="[PASTE YOUR FORMSPREE URL HERE]" method="POST" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Name Input -->
                             <div class="col-span-1">
                                 <label for="name" class="block text-sm font-medium text-cyan-accent">
                                     USER IDENTIFIER (Name)
                                 </label>
-                                <input type="text" name="name" id="name" required
+                                <input type="text" name="name" id="name_modal" required
                                     class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
                                     placeholder="Jane Doe">
                             </div>
@@ -336,7 +603,7 @@
                                 <label for="email" class="block text-sm font-medium text-cyan-accent">
                                     CONTACT ADDRESS (Email)
                                 </label>
-                                <input type="email" name="email" id="email" required
+                                <input type="email" name="email" id="email_modal" required
                                     class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
                                     placeholder="protocol@system.com">
                             </div>
@@ -353,8 +620,6 @@
                                     <option value="">-- Select Category --</option>
                                     <option value="order">Order/Tracking Status</option>
                                     <option value="formula">Formulation/Science Query</option>
-                                    <option value="billing">Payment/Billing Issue</option>
-                                    <option value="feedback">System Feedback/General</option>
                                 </select>
                             </div>
                             <!-- Order Number Input -->
@@ -362,7 +627,7 @@
                                 <label for="order_number" class="block text-sm font-medium text-cyan-accent">
                                     TRANSACTION ID (Order #)
                                 </label>
-                                <input type="text" name="order_number" id="order_number"
+                                <input type="text" name="order_number" id="order_number_modal"
                                     class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
                                     placeholder="Optional: 6-DIGIT ID">
                             </div>
@@ -394,17 +659,92 @@
             `
         };
 
-        // Function to convert Markdown to HTML (basic)
-        function markdownToHtml(markdown) {
-            let html = markdown
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^\* (.*$)/gim, '<li>$1</li>')
-                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\n\n/g, '</p><p>');
-            return '<p>' + html + '</p>';
+        // --- FUNCTION DEFINITIONS (Global) ---
+
+        // Function to open the Image Viewer (must be global due to inline onclick)
+        function openImageViewer() {
+            zoomedImage.src = mainImage.src;
+            zoomedImage.classList.remove('zoomed'); // Reset zoom state
+            // Reset position to center
+            zoomedImage.style.transform = 'scale(1) translate(0, 0)';
+            imageX = 0;
+            imageY = 0;
+            imageViewerModal.style.display = 'block';
         }
+
+        // Function to toggle zoom (must be global due to inline onclick)
+        function toggleZoom() {
+            zoomedImage.classList.toggle('zoomed');
+            zoomedImage.style.cursor = zoomedImage.classList.contains('zoomed') ? 'grab' : 'zoom-in';
+            // Reset position on zoom in/out
+            imageX = 0;
+            imageY = 0;
+            zoomedImage.style.transform = zoomedImage.classList.contains('zoomed') ? 'scale(1.5) translate(0, 0)' : 'scale(1) translate(0, 0)';
+        }
+        
+        // Function to close any modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'imageViewerModal') {
+                document.getElementById('zoomed-image').classList.remove('zoomed');
+                document.getElementById('zoomed-image').style.cursor = 'zoom-in';
+            }
+        }
+
+        // Function to update purchase details (must be global due to inline onchange)
+        function updatePurchaseDetails() {
+            const quantitySelector = document.getElementById('quantity-selector');
+            const ctaButton = document.getElementById('cta-button');
+            const currentPriceSpan = document.getElementById('current-price');
+            const protocolDurationSpan = document.getElementById('protocol-duration');
+            const headerCtaButton = document.getElementById('header-cta-button');
+
+            const selectedQuantity = quantitySelector.value;
+            const tier = PRICING_TIERS[selectedQuantity];
+
+            if (!tier) return; 
+
+            currentPriceSpan.textContent = `$${tier.price.toFixed(2)}`;
+
+            if (selectedQuantity === '1') {
+                 protocolDurationSpan.textContent = '/ 30-Day Protocol';
+            } else {
+                 protocolDurationSpan.textContent = `/ ${tier.savings}`;
+            }
+
+            const buttonText = `ADD TO PROTOCOL ($${tier.price.toFixed(2)})`;
+            ctaButton.textContent = buttonText;
+            ctaButton.href = tier.link;
+
+            headerCtaButton.href = tier.link;
+        }
+        
+        // Function to change the main displayed image
+        function switchImage(index) {
+            if (index >= 0 && index < imageSources.length) {
+                currentIndex = index;
+                mainImage.src = imageSources[currentIndex];
+                
+                // --- FIX: Update Zoomed Image Source & Reset State ---
+                if (imageViewerModal.style.display === 'block') {
+                    zoomedImage.src = imageSources[currentIndex];
+                    zoomedImage.classList.remove('zoomed');
+                    zoomedImage.style.cursor = 'zoom-in';
+                    imageX = 0;
+                    imageY = 0;
+                    zoomedImage.style.transform = 'scale(1) translate(0, 0)';
+                }
+                // ----------------------------------------------------
+
+                thumbnails.forEach(thumb => {
+                    thumb.classList.remove('thumbnail-active');
+                    if (parseInt(thumb.dataset.index) === currentIndex) {
+                        thumb.classList.add('thumbnail-active');
+                    }
+                });
+            }
+        }
+
 
         // Function to open the modal and inject content
         function openModal(contentType, title) {
@@ -413,34 +753,152 @@
             const modalBody = document.getElementById('modal-body');
             const content = MODAL_CONTENT[contentType] || "Content Unavailable: Data Integrity Error.";
 
-            // If the content is the Contact form (injects HTML directly)
+            // Function to convert Markdown to HTML (basic)
+            const markdownToHtml = (markdown) => {
+                let html = markdown
+                    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                    .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                    .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '</p><p>');
+                return '<p>' + html + '</p>';
+            };
+
             if (contentType === 'contact') {
-                modalTitle.style.display = 'none'; // Hide the duplicate title for the custom form
+                modalTitle.style.display = 'none';
                 modalBody.innerHTML = content;
-                lucide.createIcons(); // Re-initialize icons immediately after injection
+                lucide.createIcons();
             } else {
-                // Otherwise, use the standard Markdown parser
                 modalTitle.style.display = 'block';
                 modalTitle.textContent = title;
                 modalBody.innerHTML = markdownToHtml(content);
             }
-
-            // Show the modal
             modal.style.display = 'block';
         }
 
-        // Function to close the modal
-        function closeModal() {
-            document.getElementById('dataModal').style.display = 'none';
+        // --- DRAG/PAN LOGIC ---
+
+        function updateTransform() {
+            zoomedImage.style.transform = `scale(1.5) translate(${imageX}px, ${imageY}px)`;
         }
 
-        // Close the modal if the user clicks anywhere outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('dataModal');
-            if (event.target == modal) {
-                closeModal();
-            }
+        function handleDragStart(e) {
+            if (!zoomedImage.classList.contains('zoomed')) return;
+            isDragging = true;
+            zoomedImage.classList.add('dragging');
+            
+            // Get starting coordinates based on event type (touch or mouse)
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            dragStartX = clientX - imageX;
+            dragStartY = clientY - imageY;
+            if (!e.touches) e.preventDefault(); // Prevent text selection on desktop drag
         }
+
+        function handleDragMove(e) {
+            if (!isDragging) return;
+            
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            // Calculate new position
+            imageX = clientX - dragStartX;
+            imageY = clientY - dragStartY;
+
+            // Apply boundaries (optional but recommended for smooth experience)
+            // The image is scaled 1.5x, so max movement is half of the container space
+            const maxMoveX = (zoomedImage.offsetWidth * 0.5) * 0.2; 
+            const maxMoveY = (zoomedImage.offsetHeight * 0.5) * 0.2; 
+
+            // Clamp the position to the boundaries
+            imageX = Math.max(Math.min(imageX, maxMoveX), -maxMoveX);
+            imageY = Math.max(Math.min(imageY, maxMoveY), -maxMoveY);
+            
+            updateTransform();
+        }
+
+        function handleDragEnd() {
+            isDragging = false;
+            zoomedImage.classList.remove('dragging');
+        }
+
+        // --- INITIALIZATION FUNCTION ---
+        function initializeProductPage() {
+            // Close the modal if the user clicks anywhere outside of it
+            window.onclick = function(event) {
+                const dataModal = document.getElementById('dataModal');
+                const imageModal = document.getElementById('imageViewerModal');
+
+                if (event.target == dataModal) {
+                    closeModal('dataModal');
+                }
+                if (event.target == imageModal) {
+                    closeModal('imageViewerModal');
+                }
+            }
+            
+            // --- DRAG EVENT LISTENERS (Applied to the zoomed image for panning) ---
+            if (zoomedImage) {
+                // Desktop Mouse Events
+                zoomedImage.addEventListener('mousedown', handleDragStart);
+                window.addEventListener('mousemove', handleDragMove);
+                window.addEventListener('mouseup', handleDragEnd);
+
+                // Mobile Touch Events
+                zoomedImage.addEventListener('touchstart', handleDragStart);
+                window.addEventListener('touchmove', handleDragMove);
+                zoomedImage.addEventListener('touchend', handleDragEnd);
+                zoomedImage.addEventListener('touchcancel', handleDragEnd);
+            }
+
+
+            // Image Gallery Setup
+            if (mainImageContainer) {
+                // Initial update
+                updatePurchaseDetails();
+                document.querySelector('#thumbnail-gallery div[data-index="0"]').classList.add('thumbnail-active');
+                
+                // Swipe Functionality (Mobile) - Uses mainImageContainer
+                mainImageContainer.addEventListener('touchstart', (e) => {
+                    // StartX for main image swipe only if NOT dragging for zoom
+                    if (!zoomedImage.classList.contains('zoomed')) startX = e.touches[0].clientX;
+                });
+
+                mainImageContainer.addEventListener('touchend', (e) => {
+                    const endX = e.changedTouches[0].clientX;
+                    const threshold = 50; // Minimum distance for a swipe
+
+                    if (Math.abs(startX - endX) > threshold) {
+                        if (startX > endX) {
+                            switchImage((currentIndex + 1) % imageSources.length);
+                        } else {
+                            switchImage((currentIndex - 1 + imageSources.length) % imageSources.length);
+                        }
+                    }
+                });
+
+                // Thumbnail Click Listener (Desktop)
+                thumbnails.forEach(thumb => {
+                    thumb.addEventListener('click', (e) => {
+                        const index = parseInt(thumb.dataset.index);
+                        switchImage(index);
+                    });
+                });
+            }
+
+            lucide.createIcons();
+        }
+
+        // Run initialization function on load
+        window.onload = initializeProductPage;
     </script>
 </body>
 </html>
