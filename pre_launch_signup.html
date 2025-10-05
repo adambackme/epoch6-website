@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epoch 6: Access Granted - Pre-Launch Protocol</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-base: #101010;
+            --color-text: #F8F8F8;
+            --color-accent: #00CCFF;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-base);
+            color: var(--color-text);
+            scroll-behavior: smooth;
+        }
+        .text-cyan-accent {
+            color: var(--color-accent);
+        }
+        .bg-cyan-accent {
+            background-color: var(--color-accent);
+        }
+        /* Custom styling for the product image container to simulate a high-tech frame */
+        .system-frame {
+            background-image: linear-gradient(to right, rgba(176, 176, 176, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(176, 176, 176, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .input-style {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            color: var(--color-text);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 2px rgba(0, 204, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Signup Module -->
+    <div class="system-frame max-w-lg w-full bg-[#101010] p-8 md:p-12 rounded-2xl border border-cyan-accent/30 shadow-2xl shadow-cyan-accent/10">
+        
+        <div class="text-center mb-10">
+            <!-- Logo & Brand Name -->
+            <div class="flex items-center justify-center text-2xl font-bold tracking-widest uppercase mb-4">
+                <svg class="w-8 h-8 mr-2 text-cyan-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01-5.783 8.243z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l-6.16-3.422a12.083 12.083 0 005.783 8.243z" />
+                </svg>
+                <span class="text-white">EPOCH</span><span class="text-cyan-accent">6</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-3">
+                SECURE ACCESS TO THE PROTOCOL.
+            </h1>
+            <p class="text-lg text-gray-400">
+                Register for exclusive early access and system alerts before launch.
+            </p>
+        </div>
+
+        <!-- Signup Form -->
+        <!-- NOTE: This form is configured for Netlify Forms (data-netlify="true"). 
+             If using Formspree, replace action="#" with your Formspree URL. -->
+        <form name="pre-launch-signup" method="POST" data-netlify="true" class="space-y-6">
+            <input type="hidden" name="form-name" value="pre-launch-signup" />
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-cyan-accent mb-2">
+                    CONTACT ADDRESS (Email)
+                </label>
+                <input type="email" name="email" id="email" required placeholder="system.alert@protocol.com"
+                    class="mt-1 block w-full input-style text-sm font-mono placeholder-gray-500">
+            </div>
+            
+            <div>
+                <label for="name" class="block text-sm font-medium text-cyan-accent mb-2">
+                    USER IDENTIFIER (Name - Optional)
+                </label>
+                <input type="text" name="name" id="name" placeholder="John Doe"
+                    class="mt-1 block w-full input-style text-sm font-mono placeholder-gray-500">
+            </div>
+            
+            <button type="submit"
+                class="w-full bg-cyan-accent text-gray-900 font-bold tracking-widest uppercase py-3 rounded-xl hover:bg-white transition duration-300 shadow-lg hover:shadow-cyan-accent/50 text-base flex items-center justify-center">
+                INITIATE REGISTRATION
+                <i data-lucide="zap" class="w-5 h-5 ml-2"></i>
+            </button>
+        </form>
+
+        <p class="text-xs text-gray-600 mt-8 text-center">
+            By registering, you agree to our Data Integrity Policy. We respect system privacy.
+        </p>
+    </div>
+    
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
