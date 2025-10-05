@@ -268,7 +268,7 @@
             <!-- A. Image Gallery / Real Image Integration -->
             <div class="lg:sticky lg:top-28">
                 <!-- Main Image Display (Now has onclick to trigger the viewer) -->
-                <div class="product-image-container mb-6 cursor-pointer rounded-xl relative" id="main-image-container">
+                <div class="product-image-container mb-6 cursor-pointer rounded-xl relative" id="main-image-container" onclick="openImageViewer()">
                     <!-- Left Arrow (Desktop Only) -->
                     <div class="gallery-arrow left-2 sm:left-4" onclick="event.stopPropagation(); switchImage((currentIndex - 1 + imageSources.length) % imageSources.length);">
                         <i data-lucide="chevron-left" class="w-6 h-6"></i>
@@ -436,7 +436,7 @@
         <!-- 3. Protocol & Trust -->
         <section class="py-24 bg-gray-900 grid-pattern" id="protocol">
             <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold mb-10 text-white text-center">PROTOCOL & TRANSPARENCY</h2>
+                <h2 class="4xl font-bold mb-10 text-white text-center">PROTOCOL & TRANSPARENCY</h2>
 
             </div>
             
@@ -558,17 +558,17 @@
             '1': {
                 price: 69.00,
                 savings: '30-Day Protocol',
-                link: 'https://www.paypal.com/ncp/payment/AM5TE6J468MVG' // Actual 1-bottle link
+                link: 'https://www.paypal.com/ncp/payment/AM5TE6J468MVG' 
             },
             '2': {
-                price: 124.20, // $138.00 - 10%
+                price: 124.20,
                 savings: 'Save 10% ($13.80)',
-                link: 'https://www.paypal.com/ncp/payment/X7KL42K4VJ7NY' 
+                link: 'YOUR_PAYPAL_LINK_FOR_2_BOTTLES_HERE' 
             },
             '3': {
-                price: 175.95, // $207.00 - 15%
+                price: 175.95,
                 savings: 'Save 15% ($31.05)',
-                link: 'https://www.paypal.com/ncp/payment/2TCVAYBS7CT3W' 
+                link: 'YOUR_PAYPAL_LINK_FOR_3_BOTTLES_HERE' 
             }
         };
 
@@ -576,7 +576,7 @@
         const MODAL_CONTENT = {
             terms: `# EPOCH 6 LABS: TERMS OF ACCESS PROTOCOL\n\n## Effective Date: October 4, 2025\n\nWelcome to the Epoch 6 Cellular Optimization Network. These Terms of Service ("Protocol") govern your access to and use of our website, products (including Biofuel Matrix), and services (collectively, the "System"). By accessing or using the System, you agree to be bound by this Protocol.\n\n### 1. Acceptance of Terms\n\nBy placing an order or engaging with our content, you confirm that you are over the age of 18 and accept this Protocol in its entirety. If you do not agree to these terms, you may not access the System.\n\n### 2. Digital Product Use\n\nEpoch 6 Labs products are proprietary dietary supplements. All purchases grant you a license for personal use only. Resale or unauthorized distribution is strictly prohibited.\n\n### 3. Medical Disclaimer\n\nThe information on this site and the products sold are not intended to diagnose, treat, cure, or prevent any disease. Our products have not been evaluated by the FDA. **ALWAYS consult your physician** before starting any new supplement regimen. You use Biofuel Matrix at your own risk.\n\n### 4. Intellectual Property\n\nAll content, branding (EPOCH 6, BIOFUEL MATRIX), and site design are the exclusive property of [Your LLC Name Here] and are protected by copyright and intellectual property laws.\n\n### 5. Limitation of Liability\n\nEpoch 6 Labs and its suppliers will not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use the product or System.\n\n### 6. Governing Law\n\nThis Protocol shall be governed by and construed in accordance with the laws of [Your Jurisdiction/State].\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
 
-            privacy: `# EPOCH 6 LABS: DATA INTEGRITY POLICY\n\n## Effective Date: October 4, 2025\n\nAt Epoch 6 Labs, the integrity of your personal data is paramount. This policy outlines how we collect, use, and protect your information within the scope of our Cellular Optimization Network.\n\n### 1. Data Collection & Use\n\nWe collect data necessary for transaction processing, delivery, and system improvement. This includes:\n* **Identity Data:** Name, email address, shipping address (for fulfillment).\n* **Transaction Data:** Purchase history and payment details (processed securely by third-party payment processors like PayPal; we do not store full payment card numbers).\n* **Usage Data:** IP address, browser type, and interaction data (for site optimization and security).\n\nYour data is used solely to fulfill orders, process payments, and communicate proprietary system updates and offers.\n\n### 2. Data Security\n\nWe utilize industry-standard, encrypted security protocols to ensure the integrity of your personal information. Data access is restricted to authorized personnel only.\n\n### 3. Data Sharing\n\nWe do not sell your personal data. We only share necessary information with trusted third parties for the purpose of fulfilling your order (e.g., shipping carriers, payment processors).\n\n### 4. Your Rights (Data Access Protocol)\n\nYou have the right to request access to or deletion of your personal data. To initiate a data request, please contact us via the Contact Support channel.\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
+            privacy: `# EPOCH 6 LABS: DATA INTEGRITY POLICY\n\n## Effective Date: October 4, 2025\n\nAt Epoch 6 Labs, the integrity of your personal data is paramount. This policy outlines how we collect, use, and protect your information within the scope of our Cellular Optimization Network.\n\n### 1. Data Collection & Use\n\nWe collect data necessary for transprocessing, delivery, and system improvement. This includes:\n* **Identity Data:** Name, email address, shipping address (for fulfillment).\n* **TransData:** Purchase history and payment details (processed securely by third-party payment processors like PayPal; we do not store full payment card numbers).\n* **Usage Data:** IP address, browser type, and interdata (for site optimization and security).\n\nYour data is used solely to fulfill orders, process payments, and communicate proprietary system updates and offers.\n\n### 2. Data Security\n\nWe utilize industry-standard, encrypted security protocols to ensure the integrity of your personal information. Data access is restricted to authorized personnel only.\n\n### 3. Data Sharing\n\nWe do not sell your personal data. We only share necessary information with trusted third parties for the purpose of fulfilling your order (e.g., shipping carriers, payment processors).\n\n### 4. Your Rights (Data Access Protocol)\n\nYou have the right to request access to or deletion of your personal data. To initiate a data request, please contact us via the Contact Support channel.\n\n**LAST DATA INTEGRITY CHECK: 10/04/2025**`,
 
             contact: `
                 <div class="grid-pattern p-6 rounded-xl border border-cyan-accent/50">
@@ -587,7 +587,7 @@
                     <p class="text-gray-400 mb-8">
                         To ensure efficient resource allocation, please provide the following system parameters.
                     </p>
-                    <form action="#" method="POST" class="space-y-6">
+                    <form action="https://formspree.io/f/xqayllyb" method="POST" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Name Input -->
                             <div class="col-span-1">
@@ -625,7 +625,7 @@
                             <!-- Order Number Input -->
                             <div class="col-span-1">
                                 <label for="order_number" class="block text-sm font-medium text-cyan-accent">
-                                    TRANSACTION ID (Order #)
+                                    TRANSID (Order #)
                                 </label>
                                 <input type="text" name="order_number" id="order_number_modal"
                                     class="mt-1 block w-full bg-[#101010] border border-gray-700 rounded-md shadow-sm py-2 px-3 text-white focus:ring-cyan-accent focus:border-cyan-accent text-sm font-mono placeholder-gray-500"
@@ -854,7 +854,7 @@
 
                 // Mobile Touch Events
                 zoomedImage.addEventListener('touchstart', handleDragStart);
-                zoomedImage.addEventListener('touchmove', handleDragMove);
+                window.addEventListener('touchmove', handleDragMove);
                 zoomedImage.addEventListener('touchend', handleDragEnd);
                 zoomedImage.addEventListener('touchcancel', handleDragEnd);
             }
