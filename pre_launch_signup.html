@@ -52,7 +52,7 @@
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <!-- Signup Module -->
-    <div class="system-frame max-w-lg w-full bg-[#101010] p-8 md:p-12 rounded-2xl border border-cyan-accent/30 shadow-2xl shadow-cyan-accent/10">
+    <div id="signup-container" class="system-frame max-w-lg w-full bg-[#101010] p-8 md:p-12 rounded-2xl border border-cyan-accent/30 shadow-2xl shadow-cyan-accent/10">
         
         <div class="text-center mb-10">
             <!-- Logo & Brand Name -->
@@ -74,10 +74,8 @@
         </div>
 
         <!-- Signup Form -->
-        <!-- NOTE: This form is configured for Netlify Forms (data-netlify="true"). 
-             If using Formspree, replace action="#" with your Formspree URL. -->
-        <form name="pre-launch-signup" method="POST" data-netlify="true" class="space-y-6">
-            <input type="hidden" name="form-name" value="pre-launch-signup" />
+        <form id="pre-launch-form" onsubmit="submitPreLaunchForm(event)" method="POST" class="space-y-6">
+            <!-- NOTE: data-netlify is removed as we are using pure AJAX for Formspree no-redirect -->
 
             <div>
                 <label for="email" class="block text-sm font-medium text-cyan-accent mb-2">
@@ -96,19 +94,110 @@
             </div>
             
             <button type="submit"
-                class="w-full bg-cyan-accent text-gray-900 font-bold tracking-widest uppercase py-3 rounded-xl hover:bg-white transition duration-300 shadow-lg hover:shadow-cyan-accent/50 text-base flex items-center justify-center">
+                class="w-full bg-cyan-accent text-gray-900 font-bold tracking-widest uppercase py-3 rounded-xl hover:bg-white transition duration-300 shadow-lg hover:shadow-cyan-accent/50 text-base flex items-center justify-center"
+                id="submit-button"
+            >
                 INITIATE REGISTRATION
                 <i data-lucide="zap" class="w-5 h-5 ml-2"></i>
             </button>
         </form>
 
-        <p class="text-xs text-gray-600 mt-8 text-center">
+        <p class="text-xs text-gray-600 mt-6">
             By registering, you agree to our Data Integrity Policy. We respect system privacy.
         </p>
     </div>
-    
+
+    <!-- JavaScript -->
     <script>
-        lucide.createIcons();
+        // Use your actual Formspree endpoint for the pre-launch form here
+        const FORMSPREE_PRE_LAUNCH_ENDPOINT = "https://formspree.io/f/mgvnzzdp"; 
+        
+        // --- FORM SUBMISSION HANDLER (AJAX) ---
+        async function submitPreLaunchForm(event) {
+            event.preventDefault(); 
+
+            const form = document.getElementById('pre-launch-form');
+            const container = document.getElementById('signup-container');
+            const submitButton = document.getElementById('submit-button');
+
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => (data[key] = value));
+
+            // Show Loading State
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i data-lucide="loader" class="w-5 h-5 mr-2 animate-spin"></i> LOGGING ACCESS...`;
+            lucide.createIcons();
+
+            try {
+                const response = await fetch(FORMSPREE_PRE_LAUNCH_ENDPOINT, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // SUCCESS MESSAGE (Branded)
+                    container.innerHTML = `
+                        <div class="text-center py-10">
+                            <i data-lucide="check-circle" class="w-16 h-16 text-cyan-accent mx-auto mb-4"></i>
+                            <h2 class="text-3xl font-extrabold text-cyan-accent mb-2">
+                                ACCESS GRANTED.
+                            </h2>
+                            <p class="text-lg text-gray-400 mb-6">
+                                Your identifier has been successfully logged. You will be the first to receive the launch protocol and exclusive offers.
+                            </p>
+                            <a href="index.html" class="inline-block border border-gray-700 text-gray-400 font-semibold px-8 py-3 rounded-xl hover:text-white hover:border-white transition duration-300 mt-4">
+                                RETURN TO EPOCH 6 NETWORK
+                            </a>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                } else {
+                    // FAILURE MESSAGE
+                     container.innerHTML = `
+                        <div class="text-center py-10">
+                            <i data-lucide="x-circle" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+                            <h2 class="text-3xl font-extrabold text-red-500 mb-2">
+                                SYSTEM FAILURE.
+                            </h2>
+                            <p class="text-lg text-gray-400 mb-6">
+                                An error occurred during registration. Please check your connection and try again.
+                            </p>
+                            <a href="pre_launch_signup.html" class="inline-block border border-gray-700 text-gray-400 font-semibold px-8 py-3 rounded-xl hover:text-white hover:border-white transition duration-300 mt-4">
+                                RETRY REGISTRATION
+                            </a>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                }
+
+            } catch (error) {
+                // Network error
+                container.innerHTML = `
+                        <div class="text-center py-10">
+                            <i data-lucide="wifi-off" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+                            <h2 class="text-3xl font-extrabold text-red-500 mb-2">
+                                NETWORK OFFLINE.
+                            </h2>
+                            <p class="text-lg text-gray-400 mb-6">
+                                Cannot reach the network. Check your connection.
+                            </p>
+                            <a href="pre_launch_signup.html" class="inline-block border border-gray-700 text-gray-400 font-semibold px-8 py-3 rounded-xl hover:text-white hover:border-white transition duration-300 mt-4">
+                                RETRY CONNECTION
+                            </a>
+                        </div>
+                    `;
+                lucide.createIcons();
+            }
+        }
+
+        // Initialize icons on load
+        window.onload = function() {
+            lucide.createIcons();
+        };
     </script>
 </body>
 </html>
