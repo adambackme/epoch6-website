@@ -1,6 +1,18 @@
 {
 "rewrites": [
 {
+"source": "/",
+"destination": "/pre_launch_signup.html"
+},
+{
+"source": "/index.html",
+"destination": "/pre_launch_signup.html"
+},
+{
+"source": "/product_page.html",
+"destination": "/pre_launch_signup.html"
+},
+{
 "source": "/access",
 "destination": "/pre_launch_signup.html"
 }
