@@ -1,7 +1,7 @@
 {
 "rewrites": [
 {
-"source": "/",
+"source": "/access",
 "destination": "/pre_launch_signup.html"
 },
 {
@@ -13,7 +13,15 @@
 "destination": "/pre_launch_signup.html"
 },
 {
-"source": "/access",
+"source": "/_next/:path*",
+"destination": "/_next/:path*"
+},
+{
+"source": "/static/:path*",
+"destination": "/static/:path*"
+},
+{
+"source": "/(.*)",
 "destination": "/pre_launch_signup.html"
 }
 ]
