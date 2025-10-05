@@ -21,6 +21,10 @@
 "destination": "/static/:path*"
 },
 {
+"source": "/",
+"destination": "/pre_launch_signup.html"
+},
+{
 "source": "/(.*)",
 "destination": "/pre_launch_signup.html"
 }
