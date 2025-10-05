@@ -1,6 +1,18 @@
 {
 "rewrites": [
 {
+"source": "/_next/:path*",
+"destination": "/_next/:path*"
+},
+{
+"source": "/static/:path*",
+"destination": "/static/:path*"
+},
+{
+"source": "/pre_launch_signup.html",
+"destination": "/pre_launch_signup.html"
+},
+{
 "source": "/access",
 "destination": "/pre_launch_signup.html"
 },
@@ -11,14 +23,6 @@
 {
 "source": "/product_page.html",
 "destination": "/pre_launch_signup.html"
-},
-{
-"source": "/_next/:path*",
-"destination": "/_next/:path*"
-},
-{
-"source": "/static/:path*",
-"destination": "/static/:path*"
 },
 {
 "source": "/",
